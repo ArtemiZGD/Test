@@ -495,6 +495,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 808169568}
+  - component: {fileID: 808169569}
+  - component: {fileID: 808169570}
   m_Layer: 0
   m_Name: Cubes
   m_TagString: Untagged
@@ -522,6 +524,36 @@ Transform:
   - {fileID: 564516979}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &808169569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808169567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c7b31bfab0a4d3182e628172076395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minSpawnCubes: 2
+  _maxSpawnCubes: 6
+  _sizeSplitMultiplier: 0.5
+  _chanceToSplitMultiplier: 0.5
+  _cubePrefab: {fileID: 8151808304379470507, guid: 3eaab776edb0141168c749b50711a9ca, type: 3}
+--- !u!114 &808169570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808169567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f9a30d08135d477086b19043d8e2b19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blastForce: 15
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,13 +659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8718157120744a2da101138425dc588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minSpawnCubes: 2
-  _maxSpawnCubes: 6
-  _sizeSplitMultiplier: 0.5
-  _chanceToSplitMultiplier: 0.5
-  _blastForce: 15
-  _cubePrefab: {fileID: 8151808304379470507, guid: 3eaab776edb0141168c749b50711a9ca, type: 3}
-  _cubeParent: {fileID: 808169568}
+  _splitter: {fileID: 808169569}
+  _blaster: {fileID: 808169570}
   _splitKey: 323
 --- !u!1001 &972340113
 PrefabInstance:

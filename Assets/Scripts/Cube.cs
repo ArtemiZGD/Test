@@ -4,14 +4,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Cube : MonoBehaviour
 {
-    public float ChanceToSplit = 1;
-
     private Renderer _renderer;
     private Rigidbody _rigidbody;
+    private float _chanceToSplit = 1;
 
-    public void Blast(Vector3 force)
+    public Rigidbody Rigidbody => _rigidbody;
+
+    public float ChanceToSplit
     {
-        _rigidbody.AddForce(force, ForceMode.Impulse);
+        get => _chanceToSplit;
+        set => _chanceToSplit = Mathf.Clamp(value, 0, 1);
     }
 
     private void Awake()
