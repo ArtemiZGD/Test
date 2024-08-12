@@ -52,11 +52,6 @@ public class Spawner : MonoBehaviour
         cube.OnCollision += SetRandomLifetime;
     }
 
-    private void ActionOnRelease(Cube cube)
-    {
-        cube.gameObject.SetActive(false);
-    }
-
     private void SetRandomLifetime(Cube cube)
     {
         cube.OnCollision -= SetRandomLifetime;
