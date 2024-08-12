@@ -663,6 +663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _splitter: {fileID: 808169569}
   _blaster: {fileID: 808169570}
+  _cubesParent: {fileID: 808169568}
   _splitKey: 323
 --- !u!1001 &972340113
 PrefabInstance:

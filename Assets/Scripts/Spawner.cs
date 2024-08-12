@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Splitter : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [SerializeField] private int _minSpawnCubes = 2;
     [SerializeField] private int _maxSpawnCubes = 6;
@@ -8,7 +8,7 @@ public class Splitter : MonoBehaviour
     [SerializeField] private float _chanceToSplitMultiplier = 0.5f;
     [SerializeField] private Cube _cubePrefab;
 
-    public Cube[] SplitCube(Cube cube)
+    public Cube[] Split(Cube cube)
     {
         int cubesToSpawn = Random.Range(_minSpawnCubes, _maxSpawnCubes + 1);
         Vector3 cubePosition = cube.transform.position;

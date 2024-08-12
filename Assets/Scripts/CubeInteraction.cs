@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CubeInteraction : MonoBehaviour
 {
-    [SerializeField] private Splitter _splitter;
+    [SerializeField] private Spawner _splitter;
     [SerializeField] private Blaster _blaster;
+    [SerializeField] private Transform _cubesParent;
     [SerializeField] private KeyCode _splitKey = KeyCode.Mouse0;
 
     private List<Cube> _cubes;
@@ -14,7 +15,7 @@ public class CubeInteraction : MonoBehaviour
     private void Awake()
     {
         _camera = Camera.main;
-        _cubes = FindObjectsOfType<Cube>().ToList();
+        _cubes = _cubesParent.GetComponentsInChildren<Cube>().ToList();
     }
 
     private void Update()
@@ -35,7 +36,7 @@ public class CubeInteraction : MonoBehaviour
     {
         if (Random.value < cube.ChanceToSplit)
         {
-            Cube[] cubes = _splitter.SplitCube(cube);
+            Cube[] cubes = _splitter.Split(cube);
             _cubes.AddRange(cubes);
             _blaster.Blast(cubes);
         }
