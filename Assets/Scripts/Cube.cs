@@ -6,15 +6,11 @@ public class Cube : MonoBehaviour
 {
     private Renderer _renderer;
     private Rigidbody _rigidbody;
-    private float _chanceToSplit = 1;
+    private bool _isCollided;
 
     public Rigidbody Rigidbody => _rigidbody;
 
-    public float ChanceToSplit
-    {
-        get => _chanceToSplit;
-        set => _chanceToSplit = Mathf.Clamp(value, 0, 1);
-    }
+    public event System.Action<Cube> OnCollision;
 
     private void Awake()
     {
@@ -22,7 +18,28 @@ public class Cube : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void Start()
+    private void OnEnable()
+    {
+        _isCollided = false;
+        _renderer.material.color = Color.white;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (_isCollided == false && other.gameObject.TryGetComponent(out Ground _))
+        {
+            ProcessCollision();
+        }
+    }
+
+    private void ProcessCollision()
+    {
+        SetRandomColor();
+        _isCollided = true;
+        OnCollision?.Invoke(this);
+    }
+
+    private void SetRandomColor()
     {
         _renderer.material.color = Random.ColorHSV();
     }
