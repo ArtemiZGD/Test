@@ -10,7 +10,7 @@ public class Cube : MonoBehaviour
 
     public Rigidbody Rigidbody => _rigidbody;
 
-    public event System.Action<Cube> OnCollision;
+    public event System.Action<Cube> Collided;
 
     private void Awake()
     {
@@ -36,7 +36,7 @@ public class Cube : MonoBehaviour
     {
         SetRandomColor();
         _isCollided = true;
-        OnCollision?.Invoke(this);
+        Collided?.Invoke(this);
     }
 
     private void SetRandomColor()

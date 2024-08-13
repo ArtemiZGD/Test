@@ -8,19 +8,20 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Vector3 _spawnerCenter;
     [SerializeField] private Vector3 _spawnerSize;
     [SerializeField] private Cube _cubePrefab;
-    [SerializeField] private float _spawnInterval = 1f;
+    [SerializeField] private float _cubeSpawnRate = 1f;
+    [SerializeField] private float _minCubeLifetime = 2f;
+    [SerializeField] private float _maxCubeLifetime = 5f;
     [Header("ObjectPool")]
     [SerializeField] private int _defaultCapacity = 10;
     [SerializeField] private int _maxSize = 1000;
 
-    private float _timeSinceLastSpawn;
     private ObjectPool<Cube> _cubePool;
 
     private void Awake()
     {
         _cubePool = new ObjectPool<Cube>(
             createFunc: () => SpawnCube(),
-            actionOnGet: cube => ActionOnGet(cube),
+            actionOnGet: cube => Initialize(cube),
             actionOnRelease: cube => cube.gameObject.SetActive(false),
             actionOnDestroy: cube => Destroy(cube.gameObject),
             collectionCheck: true,
@@ -31,12 +32,18 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(SpawnCubeFromPool), 0f, _spawnInterval);
+        StartCoroutine(SpawnCubes());
     }
 
-    private void SpawnCubeFromPool()
+    private IEnumerator SpawnCubes()
     {
-        _cubePool.Get();
+        var wait = new WaitForSeconds(1 / _cubeSpawnRate);
+
+        while (true)
+        {
+            _cubePool.Get();
+            yield return wait;
+        }
     }
 
     private Cube SpawnCube()
@@ -44,25 +51,25 @@ public class Spawner : MonoBehaviour
         return Instantiate(_cubePrefab, Vector3.zero, Quaternion.identity, transform);
     }
 
-    private void ActionOnGet(Cube cube)
+    private void Initialize(Cube cube)
     {
         cube.transform.rotation = Quaternion.identity;
         cube.transform.position = GetRandomPosition();
         cube.gameObject.SetActive(true);
-        cube.OnCollision += SetRandomLifetime;
+        cube.Collided += SetRandomLifetime;
     }
 
     private void SetRandomLifetime(Cube cube)
     {
-        cube.OnCollision -= SetRandomLifetime;
-        StartCoroutine(ReleaseCube(cube, Random.Range(1f, 5f)));
+        cube.Collided -= SetRandomLifetime;
+        StartCoroutine(ReleaseCube(cube, Random.Range(_minCubeLifetime, _maxCubeLifetime)));
     }
 
     private IEnumerator ReleaseCube(Cube cube, float time)
     {
         yield return new WaitForSeconds(time);
         _cubePool.Release(cube);
-    } 
+    }
 
     private Vector3 GetRandomPosition()
     {
